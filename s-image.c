@@ -16,7 +16,7 @@ static void img_write(void* block, FILE* fp, uint64_t offset) {
   fwrite(img->data, img->nx*img->ny*4, 1, fp);
 }
 
-static void img_free(void* _sraf) {
+static void img_free(void* block) {
   blk_image* img = (blk_image*)block;
   free(img->data);
 }
