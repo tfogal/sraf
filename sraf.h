@@ -5,7 +5,7 @@
 
 struct sraf;
 
-struct sraf* sc_allocate();
+struct sraf* sc_allocate(const char* filename);
 /** free an SRA file.  No guarantee that it exists on disk until you call this.
  */
 void sc_free(struct sraf*);

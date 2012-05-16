@@ -2,7 +2,7 @@
 #include "sraf.h"
 
 int main() {
-  struct sraf* sra = sc_allocate();
+  struct sraf* sra = sc_allocate("dummy.sraf");
 
   /* make an image with 4 squares: red, green, blue, r+g */
   const uint64_t nx = 64;

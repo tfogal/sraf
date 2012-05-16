@@ -9,12 +9,14 @@ struct sra {
   block *blocks;
 };
 
+static const uint64_t header_size = 4;
+
 static void add_block(struct sra* s, block* newblock) {
   uint64_t offset = 0;
 
   newblock->next = NULL;
-  if(!s->blocks) {
-    newblock->offset = 0;
+  if(!s->blocks) { /* first block */
+    newblock->offset = header_size;
     s->blocks = newblock;
     return;
   }
@@ -36,13 +38,13 @@ static void free_blocks(struct sra* s) {
   }
 }
 static void write_header(struct sra* s) {
-  if(s->f == NULL) {
-    s->f = fopen("dummy.sraf", "w+b");
-  }
+  const char* sraf = "SRAF";
+  fwrite(sraf, 4, 1, s->f);
 }
 
-struct sraf* sc_allocate() {
+struct sraf* sc_allocate(const char* filename) {
   struct sra* s = calloc(1, sizeof(struct sra));
+  s->f = fopen(filename, "w+b");
   return (struct sraf*) s;
 }
 void sc_free(struct sraf* sraf) {
