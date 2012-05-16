@@ -1,0 +1,24 @@
+This is a repository of simple code to get data in and out of SCENE's format.
+
+The user of the code needs to include only "sraf.h", and that is the only
+interface to the library.  Everything else is internal.
+
+Using the interface is fairly simple.  See "driver.c" for an example, but
+basically:
+
+  1. allocate a scene SRA object.
+  2. add any number of images or meshes to it
+  3. clean up your SRA object.
+
+In detail, assuming you have your data in a bunch of std::vectors:
+
+  struct sraf* obj = sc_allocate("dummy.sraf");
+  /* .. generate mesh */
+  sc_add_mesh(obj, &vertices[0], vertices.size(),
+              &normals[0], normals.size(),
+              &texcoords[0], texcoords.size(),
+              &colors[0], colors.size(),
+              &indices[0], indices.size());
+  sc_free(obj);
+
+the above would create a SRAF file which contains a single mesh.
