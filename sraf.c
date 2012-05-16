@@ -36,8 +36,9 @@ static void free_blocks(struct sra* s) {
   }
 }
 static void write_header(struct sra* s) {
-  (void)s;
-  /** @todo: fixme! */
+  if(s->f == NULL) {
+    s->f = fopen("dummy.sraf", "w+b");
+  }
 }
 
 struct sraf* sc_allocate() {
@@ -54,13 +55,14 @@ void sc_free(struct sraf* sraf) {
     b = b->next;
   }
   free_blocks(s);
+  fclose(s->f);
   free(sraf);
 }
 
 /** adds an RGBA image to an SRA file.
  * @param nx: number of pixels in the image in X
  * @param x, y, z: lower left corner of the image in world space */
-void sc_add_image(struct sraf* _sraf, void* data, size_t nx, size_t ny,
+void sc_add_image(struct sraf* _sraf, void* data, uint64_t nx, uint64_t ny,
                   float x, float y, float z)
 {
   struct sra* s = (struct sra*) _sraf;
@@ -75,11 +77,11 @@ void sc_add_image(struct sraf* _sraf, void* data, size_t nx, size_t ny,
  * @param vertices vertex data
  * @param n_vertices number of vertices in the array */
 void sc_add_mesh(struct sraf* _sraf,
-                 float* vertices, size_t n_vertices,
-                 float* normals, size_t n_normals,
-                 float* texcoords, size_t n_texcoords,
-                 float* colors, size_t n_colors,
-                 uint32_t* indices, size_t n_indices)
+                 float* vertices, uint64_t n_vertices,
+                 float* normals, uint64_t n_normals,
+                 float* texcoords, uint64_t n_texcoords,
+                 float* colors, uint64_t n_colors,
+                 uint32_t* indices, uint64_t n_indices)
 {
   (void) _sraf;
   (void) vertices; (void) n_vertices;
