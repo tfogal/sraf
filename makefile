@@ -1,7 +1,10 @@
-CFLAGS=-Wall -Wextra
-OBJ=s-image.o s-mesh.o sraf.o
+CFLAGS=-Wall -Wextra -std=c99 -g
+OBJ=s-image.o s-mesh.o sraf.o driver.o
 
-all: $(OBJ)
+all: $(OBJ) writeit
+
+writeit: $(OBJ)
+	$(CC) $^ -o $@ $(LIBS)
 
 clean:
 	rm -f *.o
